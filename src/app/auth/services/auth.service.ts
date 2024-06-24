@@ -18,8 +18,8 @@ export class AuthService {
   private _authStatus = signal<AuthStatus>( AuthStatus.checking );
 
   // Creación de propiedades computadas para exponer las propiedades privadas sin poder modificarlas
-  public currenUser = computed( () => this._currentUser );
-  public authStatus = computed( () => this._authStatus );
+  public currenUser = computed( () => this._currentUser() );
+  public authStatus = computed( () => this._authStatus() );
 
   constructor() { }
 
