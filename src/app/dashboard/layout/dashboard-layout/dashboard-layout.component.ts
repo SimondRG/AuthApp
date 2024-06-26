@@ -16,5 +16,9 @@ export class DashboardLayoutComponent {
     return this.authService.currenUser();
   }*/
 
+  onLogout(){
+    this.authService.logout();
+  }
+
 
 }

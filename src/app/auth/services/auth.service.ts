@@ -21,7 +21,9 @@ export class AuthService {
   public currenUser = computed( () => this._currentUser() );
   public authStatus = computed( () => this._authStatus() );
 
-  constructor() { }
+  constructor() { 
+    this.checkAuthStatus().subscribe();
+  }
 
   private setAuthentication(user: User, token: string): boolean{
 
@@ -48,7 +50,10 @@ export class AuthService {
     const url = `${ this.baseUrl }/auth/check-token`;
     const token = localStorage.getItem('token');
 
-    if( !token ) return of(false);
+    if( !token ){
+      this.logout();
+      return of(false);
+    } 
 
     // Si el token existe, se verifica el token creando los headers de autorización
     const headers = new HttpHeaders()
@@ -63,6 +68,12 @@ export class AuthService {
         })
       );
 
+  }
+
+  logout(): void{
+    localStorage.removeItem('token');
+    this._currentUser.set(null);
+    this._authStatus.set( AuthStatus.noAuthenticated );
   }
 
 }
